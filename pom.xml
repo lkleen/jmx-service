@@ -8,7 +8,7 @@
         <version>0.7.1</version>
     </parent>
 
-    <artifactId>jmx</artifactId>
+    <artifactId>jmx-service</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
