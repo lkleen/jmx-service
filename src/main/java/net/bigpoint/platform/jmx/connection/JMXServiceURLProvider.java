@@ -1,11 +1,12 @@
 package net.bigpoint.platform.jmx.connection;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.management.remote.JMXServiceURL;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Date: 5/23/13
@@ -14,15 +15,35 @@ import java.util.Map;
  * @author lkleen
  * @version 0.0.1
  */
+@Slf4j
 public class JMXServiceURLProvider {
 
-    public Map<String, JMXServiceURL> getJMXServiceURLs() {
-        Map<String, JMXServiceURL> urls = new HashMap<>();
-        try {
-            urls.put("auth-service", new JMXServiceURL("service:jmx:rmi://10.189.173.106/jndi/rmi://10.189.173.106:10991/jmxrmi"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+    public static final List<String> keys;
+
+    @Inject
+    private Environment env;
+
+    private Map<String, JMXServiceURL> urls;
+
+    static {
+        List<String> list = new ArrayList<>();
+        list.add("auth-service");
+        list.add("databag-service");
+        list.add("decisiontree-service");
+        list.add("tac-service");
+        keys = Collections.unmodifiableList(list);
+    }
+
+    @PostConstruct
+    private void init() {
+        Map<String, JMXServiceURL> map = new HashMap<>();
+        for (String key : keys) {
+            map.put(key, env.getRequiredProperty(key, JMXServiceURL.class));
         }
+        urls = Collections.unmodifiableMap(map);
+    }
+
+    public Map<String, JMXServiceURL> getJMXServiceURLs() {
         return urls;
     }
 
