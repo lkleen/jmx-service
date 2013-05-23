@@ -12,6 +12,23 @@
     <version>0.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <inceptionYear>2013</inceptionYear>
+
+    <scm>
+        <connection>scm:git:git@github.com:lkleen/jmx-service.git</connection>
+        <developerConnection>scm:git:git@github.com:lkleen/jmx-service.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>lkleen</id>
+            <name>Lars Kleen</name>
+            <organization>Bigpoint GmbH</organization>
+            <timezone>GMT+1</timezone>
+        </developer>
+    </developers>
+
     <dependencies>
 
         <dependency>
