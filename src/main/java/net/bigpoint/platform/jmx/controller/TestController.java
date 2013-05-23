@@ -26,13 +26,9 @@ import java.util.List;
 @Slf4j
 public class TestController {
 
-    @Inject
-    private MiniConsoleApplication consoleApplication;
-
     @RequestMapping(method = RequestMethod.GET)
     public String hello() {
-        StandaloneMiniConsole smc = new StandaloneMiniConsole(1234, consoleApplication);
-        log.debug("blabla");
+        //StandaloneMiniConsole smc = new StandaloneMiniConsole(1234, consoleApplication);
         return "hello";
     }
 

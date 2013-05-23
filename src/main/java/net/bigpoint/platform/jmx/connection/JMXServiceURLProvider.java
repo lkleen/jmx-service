@@ -3,7 +3,9 @@ package net.bigpoint.platform.jmx.connection;
 import javax.management.remote.JMXServiceURL;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Date: 5/23/13
@@ -14,10 +16,10 @@ import java.util.List;
  */
 public class JMXServiceURLProvider {
 
-    public List<JMXServiceURL> getJMXServiceURLs() {
-        List<JMXServiceURL> urls = new ArrayList<>();
+    public Map<String, JMXServiceURL> getJMXServiceURLs() {
+        Map<String, JMXServiceURL> urls = new HashMap<>();
         try {
-            urls.add(new JMXServiceURL("service:jmx:rmi://10.189.173.106/jndi/rmi://10.189.173.106:10991/jmxrmi"));
+            urls.put("auth-service", new JMXServiceURL("service:jmx:rmi://10.189.173.106/jndi/rmi://10.189.173.106:10991/jmxrmi"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

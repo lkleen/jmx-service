@@ -21,11 +21,11 @@ import java.util.*;
 @Slf4j
 public class RemoteServerConnector {
 
-    public Map<String, MBeanServerConnection> connect(Collection<JMXServiceURL> jmxServiceURLs) {
+    public Map<String, MBeanServerConnection> connect(Map<String, JMXServiceURL> jmxServiceURLs) {
         Map<String, MBeanServerConnection> connections = new HashMap<>();
-        for (JMXServiceURL jmxServiceURL : jmxServiceURLs) {
+        for (Map.Entry<String, JMXServiceURL> jmxServiceURL : jmxServiceURLs.entrySet()) {
             try {
-                RemoteServerConnectionEntry conn = connect(jmxServiceURL);
+                RemoteServerConnectionEntry conn = connect(jmxServiceURL.getKey(), jmxServiceURL.getValue());
                 connections.put(conn.key, conn.value);
             } catch (JMXRemoteConnectionException e) {
                 log.error(e.getMessage(), e);
@@ -34,10 +34,10 @@ public class RemoteServerConnector {
         return connections;
     }
 
-    public RemoteServerConnectionEntry connect(JMXServiceURL jmxServiceURL) {
+    public RemoteServerConnectionEntry connect(String connectionKey, JMXServiceURL jmxServiceURL) {
         try {
             JMXConnector jc = JMXConnectorFactory.connect(jmxServiceURL);
-            return new RemoteServerConnectionEntry(jc.getConnectionId(), jc.getMBeanServerConnection());
+            return new RemoteServerConnectionEntry(connectionKey, jc.getMBeanServerConnection());
         } catch (IOException e) {
             throw new JMXRemoteConnectionException(jmxServiceURL, e);
         }

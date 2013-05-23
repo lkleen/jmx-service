@@ -4,6 +4,7 @@ import net.bigpoint.platform.jmx.connection.JMXServiceURLProvider;
 import net.bigpoint.platform.jmx.connection.RemoteServerConnectionProvider;
 import net.bigpoint.platform.jmx.test.TestBean;
 import org.jminix.console.application.MiniConsoleApplication;
+import org.jminix.console.tool.StandaloneMiniConsole;
 import org.jminix.server.ServerConnectionProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,11 @@ public class MainConfig {
         MiniConsoleApplication app = new MiniConsoleApplication();
         app.setServerConnectionProvider(serverConnectionProvider());
         return app;
+    }
+
+    @Bean
+    public StandaloneMiniConsole standaloneMiniConsole() {
+        return new StandaloneMiniConsole(5656, miniConsoleApplication());
     }
 
 }
