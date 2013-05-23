@@ -1,41 +1,32 @@
-/*
 package net.bigpoint.platform.jmx;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import net.bigpoint.platform.jmx.configuration.MainConfig;
+import net.bigpoint.platform.jmx.configuration.WebMvc;
+import org.jminix.console.tool.StandaloneMiniConsole;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
-public class AppTests {
-    private MockMvc mockMvc;
+@ContextConfiguration(classes = {MainConfig.class}, loader = AnnotationConfigContextLoader.class)
+public class AppTests extends AbstractTestNGSpringContextTests {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    protected WebApplicationContext wac;
-
-    @Before
-    public void setup() {
-        this.mockMvc = webAppContextSetup(this.wac).build();
-    }
+    @Inject
+    private StandaloneMiniConsole console;
 
     @Test
-    public void simple() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("hello"));
+    public void test() throws Exception {
+        Assert.notNull(console);
     }
 }
-*/
